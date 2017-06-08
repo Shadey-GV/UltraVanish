@@ -1,20 +1,17 @@
 package me.ishadey.autorespawn.events;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-@Deprecated
 public class PlayerAutoRespawnEvent extends Event {
 	
 	private Player p;
 	private Location deathLoc;
 	private Location respawnLoc;
-	private int respawnDelayTicks = 0;
 	
 	public PlayerAutoRespawnEvent(Player p, Location deathLoc, Location respawnLoc) {
 		this.p = p;
@@ -38,32 +35,13 @@ public class PlayerAutoRespawnEvent extends Event {
 		return p.getLastDamageCause().getCause();
 	}
 	
-	@Deprecated
-	public int getRespawnDelayTicks() {
-		return respawnDelayTicks;
-	}
-	
-	@Deprecated
-	public double getRespawnDelaySeconds() {
-		return (Double.parseDouble(respawnDelayTicks + ".0") / 20);
-	}
-	
 	public boolean killedByPlayer() {
-		if (p.getLastDamageCause().getEntity() instanceof Player) {
+		if (p.getLastDamageCause().getEntity() instanceof Player)
 			return true;
-		}
-		if (p.getLastDamageCause().getEntity() instanceof Arrow) {
-			Arrow a = (Arrow) p.getLastDamageCause().getEntity();
-			if (a.getShooter() instanceof Player) {
+		if (p.getLastDamageCause().getEntity() instanceof Projectile) {
+			Projectile a = (Projectile) p.getLastDamageCause().getEntity();
+			if (a.getShooter() instanceof Player)
 				return true;
-			}
-			return false;
-		}
-		if (p.getLastDamageCause().getEntity() instanceof Snowball) {
-			Snowball a = (Snowball) p.getLastDamageCause().getEntity();
-			if (a.getShooter() instanceof Player) {
-				return true;
-			}
 			return false;
 		}
 		return false;
