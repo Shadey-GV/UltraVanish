@@ -3,7 +3,6 @@ package me.ishadey.autorespawn;
 import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,39 +16,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.ishadey.autorespawn.events.PlayerAutoRespawnEvent;
 import me.ishadey.autorespawn.events.PlayerPreAutoRespawnEvent;
-import me.ishadey.web.CustomMetrics;
 import me.ishadey.web.SpigotPluginUpdater;
 
-@SuppressWarnings("deprecation")
 public class Main extends JavaPlugin implements Listener {
 
 	public SpigotPluginUpdater spu = new SpigotPluginUpdater(this, "AutoRespawnPlus");
-	private CustomMetrics cm = new CustomMetrics("AutoRespawnPlus", this);
 
 	private File file;
 	private FileConfiguration config;
 
 	public void onEnable() {
-
-		try {
-			cm.add();
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.getLogger().info("Could not connect to iShadey.ga for Metrics.");
-		}
-
 		Bukkit.getPluginManager().registerEvents(this, this);
-
 		getCommand("arp").setExecutor(new Cmd(this));
-
 		file = new File(getDataFolder(), "config.yml");
 		config = new YamlConfiguration();
-
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
 			saveResource("config.yml", false);
 		}
-
 		try {
 			config.load(file);
 		} catch (Exception e) {
@@ -57,7 +41,6 @@ public class Main extends JavaPlugin implements Listener {
 			getLogger().log(Level.WARNING, "Report this to iShadey:");
 			e.printStackTrace();
 		}
-
 		if (getConfig().getBoolean("checkForUpdates")) {
 			if (spu.needsUpdate()) {
 				if (getConfig().getBoolean("autoUpdate"))
@@ -66,41 +49,23 @@ public class Main extends JavaPlugin implements Listener {
 		}
 	}
 
-	public void onDisable() {
-		try {
-			cm.remove();
-		} catch (Exception e) {
-			Logger.getLogger("Minecraft").info("Could not connect to iShadey.ga for Metrics.");
-		}
-	}
-
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
-
 		Location deathLoc = e.getEntity().getLocation();
-
 		if (config.getBoolean("enabled")) {
-
 			if (e.getEntity().hasPermission("autorespawn.respawn")) {
-
 				Player player = e.getEntity();
-
 				List<String> worlds = config.getStringList("blocked-worlds");
-
 				if (worlds != null) {
 					for (int i = 0; i < worlds.size(); i++) {
 						if (worlds.get(i).equalsIgnoreCase(player.getWorld().getName()))
 							return;
 					}
 				}
-
 				PlayerPreAutoRespawnEvent ppare = new PlayerPreAutoRespawnEvent(player, deathLoc);
-
 				Bukkit.getPluginManager().callEvent(ppare);
-
 				if (ppare.isCancelled())
 					return;
-
 				Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 					@Override
 					public void run() {
@@ -110,7 +75,6 @@ public class Main extends JavaPlugin implements Listener {
 								.callEvent(new PlayerAutoRespawnEvent(e.getEntity(), deathLoc, respawnLoc));
 					}
 				}, 1L);
-
 			}
 		}
 	}
