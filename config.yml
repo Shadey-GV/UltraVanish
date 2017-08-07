@@ -1,8 +1,34 @@
-checkForUpdates: true
-autoUpdate: true
+# 
+# 
+#  UltraVanish by iShadey
+#  http://ishadey.ga/
+# 
+#  Set blockVanishGlitch to false if ANY other plugins hide players (Without using invisibility)
 
-enabled: true
+options:
+  alwaysFly: false # Should players in vanish always be flying?
+  applyNightVision: false
+  blockAllDamage: true
+  blockBedUse: true # Should players in vanish always be blocked from using beds?
+  blockBlockBreak: true
+  blockBlockPlace: true
+  blockEat: true
+  blockFishing: true
+  blockHungerLoss: true
+  blockPVP: true
+  blockInteraction: true
+  blockItemDrop: true
+  blockItemPickup: true
+  hidePlayerFromCommands: true
+  
+  blockVanishGlitch: true
 
-blocked-worlds:
-- BlockedWorld1
-- BlockedWorld2
+messages:
+  playerHiddenFromCommand: '&cError: &4Player not found.'
+  vanish: '&aVanish enabled! You are hidden from normal players.'
+  unvanish: '&cVanish disabled.'
+  noPermission: '&cInsufficient permission.'
+  notFound: '&cPlayer not found.'
+  multiplePlayersFound: '&aPlease be more specific, &e$n&a players matched your text: &e($p)'
+  toggleVanishOther: '&aSet vanish for $p to: $v'
+  containerOpen: '&aOpening container silently. Editing disabled.'
