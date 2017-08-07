@@ -1,44 +1,26 @@
-version: 3.0
-name: AutoRespawnPlus
+name: UltraVanish
+main: ga.ishadey.plugin.ultravanish.Main
+version: 1.0
 author: iShadey
-main: me.ishadey.autorespawn.Main
-description: Automagically respawn!
+loadbefore: [Essentials]
+description: Vanish plugin!
 
 commands:
-  arp:
-    description: Main command.
-    aliases: [autorp, arplus, autorespawnplus]
+  vanish:
+    description: Hide yourself from players.
+    aliases: [v, uv, ultravanish]
 
 permissions:
-  autorespawn.respawn:
-    description: Automagically respawn.
-    default: true
-  autorespawn.help:
-    description: Ability to use /arp help.
+  vanish.*:
+    children:
+      vanish.use: true
+      vanish.seehidden: true
+  vanish.seehidden:
+    description: See people in /v!
     default: op
-  autorespawn.enable:
-    description: Ability to enable auto respawning.
+  vanish.use:
+    description: Ability to vanish!
     default: op
-  autorespawn.disable:
-    description: Ability to disable auto respawning.
+  vanish.other:
+    description: Ability to vanish others!
     default: op
-  autorespawn.toggle:
-    description: Ability to toggle auto respawning.
-    default: op
-  autorespawn.check:
-    description: Ability to check for updates.
-    default: op
-  autorespawn.update:
-    description: update
-    default: op
-  autorespawn.*:
-    childeren:
-      autorespawn.update: true
-      autorespawn.check: true
-      autorespawn.toggle: true
-      autorespawn.disable: true
-      autorespawn.enable: true
-      autorespawn.help: true
-      autorespawn.respawn: true
-    default: op
-    description: All permissions.
